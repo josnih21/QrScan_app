@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qrscanner_sql/src/models/scan_models.dart';
+export 'package:qrscanner_sql/src/models/scan_models.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider{
@@ -12,7 +13,7 @@ class DBProvider{
   DBProvider._();
 
   Future<Database> get database async{
-    if(database !=null){
+    if( _database != null){
       return _database;
     }
 
@@ -30,7 +31,7 @@ class DBProvider{
       onOpen: (db){},
       onCreate: (Database db,int version) async {
         await db.execute(
-          'CRETE TABLE Scans ('
+          'CREATE TABLE Scans ('
           ' id INTEGER PRIMARY KEY,'
           ' tipo TEXT,'
           ' valor TEXT'
