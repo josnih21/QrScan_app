@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qrscanner_sql/src/bloc/scans_bloc.dart';
+import 'package:qrscanner_sql/src/models/scan_models.dart';
 import 'package:qrscanner_sql/src/pages/adresses.dart';
 import 'package:qrscanner_sql/src/pages/maps.dart';
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:qrscanner_sql/src/provider/db_provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final scansBloc = new ScansBloc();
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete_forever),
-            onPressed: () {},
+            onPressed: () {scansBloc.deleteAllScans();},
           )
         ],
       ),
@@ -38,9 +39,7 @@ class _HomePageState extends State<HomePage> {
     return BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
+          setState(() => currentIndex = index); 
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.map), title: Text('Maps')),
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
 
     if (futureString != null) {
       final scan = ScanModel(value: futureString);
-      DBProvider.db.newScanRaw(scan);
+      scansBloc.addScans(scan);
     }
   }
 

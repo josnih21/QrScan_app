@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrscanner_sql/src/pages/adresses.dart';
 import 'package:qrscanner_sql/src/pages/home_page.dart';
-import 'package:qrscanner_sql/src/pages/maps.dart';
  
 void main() => runApp(MyApp());
  
