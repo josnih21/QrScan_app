@@ -1,8 +1,12 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:qrscanner_sql/src/bloc/scans_bloc.dart';
 import 'package:qrscanner_sql/src/models/scan_models.dart';
 import 'package:qrscanner_sql/src/pages/adresses.dart';
 import 'package:qrscanner_sql/src/pages/maps.dart';
+import 'package:qrscanner_sql/utils/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.filter_center_focus),
-        onPressed: _scanQR,
+        onPressed: () => _scanQR(context),
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );
@@ -49,7 +53,7 @@ class _HomePageState extends State<HomePage> {
   }
   //https://josnih.com
   //geo:40.65967463655211,-73.92354383906253
-  _scanQR() async {
+  _scanQR(BuildContext context) async {
     dynamic futureString = 'https://josnih.com';
     //try {
       //futureString = await BarcodeScanner.scan();
@@ -60,6 +64,17 @@ class _HomePageState extends State<HomePage> {
     if (futureString != null) {
       final scan = ScanModel(value: futureString);
       scansBloc.addScans(scan);
+      final scan2 = ScanModel(value: 'geo:40.65967463655211,-73.92354383906253');
+      scansBloc.addScans(scan2);
+      if(Platform.isIOS){
+        Future.delayed(Duration(milliseconds: 750),(){
+          utils.lauchURL(context,scan);
+        });
+
+      }else{
+        utils.lauchURL(context,scan);
+      }
+
     }
   }
 

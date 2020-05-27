@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qrscanner_sql/src/bloc/scans_bloc.dart';
 import 'package:qrscanner_sql/src/models/scan_models.dart';
+import 'package:qrscanner_sql/utils/utils.dart' as utils;
 
 class MapsPage extends StatelessWidget {
   final scansBloc = new ScansBloc();
@@ -27,6 +28,7 @@ class MapsPage extends StatelessWidget {
                 title: Text(scans[i].value),
                 subtitle: Text('ID: ${scans[i].id}'),
                 trailing: Icon(Icons.keyboard_arrow_right,color:Colors.grey),
+                onTap: ()  => utils.lauchURL(context,scans[i]),
               ),
             ),
           );
